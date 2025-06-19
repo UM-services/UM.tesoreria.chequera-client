@@ -1,0 +1,35 @@
+<header class="app-header">
+  <div class="header-content">
+    <div class="header-left">
+      <div class="logo-container">
+        <svg class="app-logo" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="app-name">Chequera</span>
+      </div>
+    </div>
+    
+    <div class="header-right">
+      @if (user()) {
+        <div class="user-info">
+          <div class="user-details">
+            <span class="user-name">{{ user()?.name }}</span>
+            <span class="user-email">{{ user()?.email }}</span>
+          </div>
+          <div class="user-avatar">
+            <img [src]="user()?.picture" [alt]="user()?.name" class="avatar-image">
+          </div>
+          <button class="logout-button" (click)="logout()" title="Cerrar sesión">
+            <svg class="logout-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <polyline points="16,17 21,12 16,7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <line x1="21" y1="12" x2="9" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      }
+    </div>
+  </div>
+</header> 

@@ -1,0 +1,39 @@
+<!-- Header siempre visible cuando hay usuario -->
+<app-header></app-header>
+
+<div class="layout-flex">
+  <main class="main-content">
+    @if (user()) {
+      <!-- Usuario autenticado - mostrar contenido principal -->
+      <div class="authenticated-content">
+        <div class="welcome-section">
+          <h1>¡Bienvenido, {{ user()?.given_name }}!</h1>
+          <p>Has iniciado sesión correctamente con tu cuenta de Google.</p>
+        </div>
+        
+        <div class="user-info-card">
+          <h2>Información de tu cuenta</h2>
+          <div class="info-grid">
+            <div class="info-item">
+              <span class="label">Nombre completo:</span>
+              <span class="value">{{ user()?.name }}</span>
+            </div>
+            <div class="info-item">
+              <span class="label">Email:</span>
+              <span class="value">{{ user()?.email }}</span>
+            </div>
+            <div class="info-item">
+              <span class="label">ID de usuario:</span>
+              <span class="value">{{ user()?.id }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    } @else {
+      <!-- Usuario no autenticado - mostrar login -->
+      <app-login [key]="loginKey()"></app-login>
+    }
+  </main>
+</div>
+
+<app-footer></app-footer>

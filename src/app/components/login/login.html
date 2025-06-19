@@ -1,0 +1,61 @@
+<div [class]="getContainerClasses()">
+  <div class="login-card">
+    <div class="login-header">
+      <div class="logo-container">
+        <svg class="app-logo" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h1 class="login-title">Bienvenido</h1>
+      <p class="login-subtitle">Inicia sesión para continuar</p>
+    </div>
+    
+    <div class="login-content">
+      <!-- Mensaje de error -->
+      @if (hasError) {
+        <div class="error-message">
+          <svg class="error-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" fill="currentColor"/>
+          </svg>
+          {{ errorMessage }}
+        </div>
+      }
+
+      <!-- Indicador de carga -->
+      @if (isLoading) {
+        <div class="loading-indicator">
+          <div class="spinner"></div>
+          <p>Iniciando sesión...</p>
+        </div>
+      }
+
+      <h2>Login with Google</h2>
+      <div id="g_id_onload"
+           [attr.data-client_id]="googleClientId"
+           data-callback="handleCredentialResponse">
+      </div>
+      <div class="g_id_signin"
+           data-type="standard"
+           data-size="large"
+           data-theme="outline"
+           data-text="sign_in_with"
+           data-shape="rectangular"
+           data-logo_alignment="left">
+      </div>
+      
+      <div class="divider" [class.hidden]="isLoading">
+        <span class="divider-text"></span>
+      </div>
+    </div>
+    
+    <div class="login-footer">
+      <p class="terms-text">
+        Al continuar, aceptas nuestros 
+        <a href="#" class="link">Términos de Servicio</a> y 
+        <a href="#" class="link">Política de Privacidad</a>
+      </p>
+    </div>
+  </div>
+</div>
