@@ -41,6 +41,8 @@ function copyExampleFiles() {
     if (fs.existsSync(fromPath)) {
       fs.copyFileSync(fromPath, toPath);
       console.log(`📋 Copiado: ${file.from} → ${file.to}`);
+    } else {
+      console.log(`⚠️  Archivo de ejemplo no encontrado: ${file.from}`);
     }
   });
 }
@@ -49,7 +51,8 @@ function copyExampleFiles() {
 function generateEnvironmentContent(envVars, isProduction = false) {
   return `export const environment = {
   production: ${isProduction},
-  googleClientId: '${envVars.GOOGLE_CLIENT_ID || ''}'
+  googleClientId: '${envVars.GOOGLE_CLIENT_ID || ''}',
+  backendUrl: '${envVars.BACKEND_URL || 'http://127.0.0.1:8121'}'
 };
 `;
 }
@@ -87,6 +90,7 @@ function generateEnvironments() {
     
     console.log('✅ Archivos de environment generados correctamente');
     console.log('📝 Google Client ID:', envVars.GOOGLE_CLIENT_ID);
+    console.log('🌐 Backend URL:', envVars.BACKEND_URL || 'http://127.0.0.1:8121 (por defecto)');
   } catch (error) {
     console.error('❌ Error generando archivos de environment:', error.message);
     process.exit(1);

@@ -1,5 +1,5 @@
 import { Component, signal, inject, effect } from '@angular/core';
-import { Login } from './components/login/login'; // La importación de tu componente Login
+import { RouterOutlet } from '@angular/router';
 import { Header } from './components/header/header';
 import { Footer } from './components/footer/footer';
 import { AuthService } from './services/auth.service';
@@ -8,7 +8,7 @@ import { AuthService } from './services/auth.service';
   selector: 'app-root',
   standalone: true,
   imports: [
-    Login,
+    RouterOutlet,
     Header,
     Footer
   ],
@@ -21,16 +21,11 @@ export class App {
   protected readonly title = signal('chequera-client');
   protected readonly user = this.authService.user;
 
-  // Clave para forzar el remount del login
-  protected loginKey = signal(0);
-
   constructor() {
-    // Efecto para reiniciar el login cuando el usuario hace logout
+    // Efecto para manejar cambios en el estado de autenticación
     effect(() => {
-      if (!this.user()) {
-        // Si el usuario es null, incrementar la clave para forzar el remount
-        this.loginKey.update(k => k + 1);
-      }
+      const currentUser = this.user();
+      console.log('Estado de autenticación cambiado:', currentUser ? 'Autenticado' : 'No autenticado');
     });
   }
 }

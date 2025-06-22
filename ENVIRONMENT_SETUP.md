@@ -28,6 +28,9 @@ La aplicación ahora maneja las variables de ambiente de manera segura:
 # Google OAuth Configuration
 GOOGLE_CLIENT_ID=tu_client_id_real_de_google.apps.googleusercontent.com
 
+# Backend URL
+BACKEND_URL=http://127.0.0.1:8121
+
 # Environment
 NODE_ENV=development
 ```
@@ -75,6 +78,7 @@ npm run generate-env
 
 Después de configurar, verifica en la consola del navegador:
 - ✅ Client ID cargado correctamente
+- ✅ Backend URL configurada correctamente
 - ✅ API de Google disponible
 - ✅ Google Sign-In inicializado
 

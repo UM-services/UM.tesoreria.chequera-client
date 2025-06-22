@@ -1,4 +1,5 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, inject, Input, ElementRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, inject, ElementRef } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService, User } from '../../services/auth.service';
 import { environment } from '../../../environments/environment';
 import { getAppConfig } from '../../config/app.config';
@@ -33,13 +34,14 @@ interface DecodedToken {
 
 @Component({
   selector: 'app-login',
+  standalone: true,
   imports: [],
   templateUrl: './login.html',
   styleUrl: './login.scss'
 })
 export class Login implements OnInit, AfterViewInit, OnDestroy {
-  @Input() key: any;
   private authService = inject(AuthService);
+  private router = inject(Router);
   private elementRef = inject(ElementRef);
   
   hasError: boolean = false;
@@ -139,24 +141,51 @@ export class Login implements OnInit, AfterViewInit, OnDestroy {
       );
       
       const decodedToken = JSON.parse(jsonPayload) as DecodedToken;
-      console.log('Usuario autenticado:', decodedToken);
+      console.log('Usuario autenticado con Google:', decodedToken);
       
-      // Crear objeto User y guardarlo en el servicio
-      const user: User = {
-        id: decodedToken.sub,
-        name: decodedToken.name,
-        email: decodedToken.email,
-        picture: decodedToken.picture,
-        given_name: decodedToken.given_name,
-        family_name: decodedToken.family_name
-      };
+      // Verificar que el email esté verificado por Google
+      if (!decodedToken.email_verified) {
+        this.handleError('El email de Google no está verificado. Por favor, verifica tu cuenta de Google.');
+        return;
+      }
       
-      this.authService.setUser(user);
+      // Verificar la cuenta en el backend y obtener información del usuario
+      this.authService.verifyAccountWithBackend(decodedToken.email).subscribe({
+        next: (backendUser) => {
+          if (backendUser) {
+            // Crear objeto User con la información de Google y del backend
+            const user: User = {
+              id: decodedToken.sub,
+              name: decodedToken.name,
+              email: decodedToken.email,
+              picture: decodedToken.picture,
+              given_name: decodedToken.given_name,
+              family_name: decodedToken.family_name,
+              backendUserId: backendUser.userId
+            };
+            
+            this.authService.setUser(user);
+            console.log('Usuario autenticado exitosamente en ambos sistemas');
+            console.log('Información del backend:', backendUser);
+            
+            // Navegar al selector de facultad
+            this.router.navigate(['/facultad-selector']);
+          } else {
+            this.handleError('Tu cuenta de Google no está autorizada para acceder a este sistema. Contacta al administrador.');
+          }
+        },
+        error: (error) => {
+          console.error('Error al verificar cuenta en el backend:', error);
+          this.handleError('Error al verificar la autorización. Por favor, inténtalo de nuevo.');
+        },
+        complete: () => {
+          this.isLoading = false;
+        }
+      });
       
     } catch (error) {
       console.error('Error al procesar la respuesta de Google:', error);
       this.handleError('Error al procesar la autenticación. Por favor, inténtalo de nuevo.');
-    } finally {
       this.isLoading = false;
     }
   }
