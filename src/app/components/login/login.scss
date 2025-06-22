@@ -98,6 +98,11 @@ $transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
   .logo-container {
     margin-bottom: 8px;
+
+    .app-logo-img {
+      height: 48px;
+    }
+
     .app-logo {
       width: 48px;
       height: 48px;

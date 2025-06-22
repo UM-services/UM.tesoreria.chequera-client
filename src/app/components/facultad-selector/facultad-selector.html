@@ -1,0 +1,156 @@
+<div [class]="getContainerClasses()">
+  <div class="facultad-selector-content">
+    <div class="loading-container" *ngIf="isLoading()">
+      <div class="spinner"></div>
+      <p>Cargando facultades...</p>
+    </div>
+
+    <div class="error-container" *ngIf="hasError()">
+      <div class="error-icon">⚠️</div>
+      <p class="error-message">{{ errorMessage() }}</p>
+      <div class="error-actions">
+        <button class="retry-button" *ngIf="canRetryFacultades()" (click)="loadFacultades()">
+          Intentar de nuevo
+        </button>
+        <button class="back-button" *ngIf="!canRetryFacultades()" (click)="resetChequeraError()">
+          Volver a intentar
+        </button>
+      </div>
+    </div>
+
+    <div class="facultad-form" *ngIf="!isLoading() && !hasError()">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="facultad-select">Unidad Académica:</label>
+          <select 
+            id="facultad-select" 
+            [value]="selectedFacultad()?.facultadId ?? ''"
+            (change)="onFacultadChange($event)"
+            class="facultad-select"
+            [disabled]="facultades().length === 0">
+            
+            <option value="" disabled *ngIf="facultades().length === 0">
+              No hay facultades disponibles
+            </option>
+            
+            <option 
+              *ngFor="let facultad of facultades()" 
+              [value]="facultad.facultadId"
+              [selected]="selectedFacultad()?.facultadId === facultad.facultadId">
+              {{ facultad.facultad.nombre }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group" *ngIf="selectedFacultad()">
+          <label for="documento-input">Número de Documento:</label>
+          <input 
+            type="number" 
+            id="documento-input"
+            [value]="documento()"
+            (input)="onDocumentoChange($event)"
+            class="documento-input"
+            placeholder="Ingresa tu número de documento"
+            [disabled]="isLoadingChequera()">
+        </div>
+      </div>
+
+      <div class="form-group" *ngIf="selectedFacultad() && documento()">
+        <button 
+          class="consultar-button"
+          (click)="consultarChequera()"
+          [disabled]="isLoadingChequera()">
+          <span *ngIf="!isLoadingChequera()">Consultar Chequera</span>
+          <span *ngIf="isLoadingChequera()">Consultando...</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Loading para consulta de chequera -->
+    <div class="loading-container" *ngIf="isLoadingChequera()">
+      <div class="spinner"></div>
+      <p>Consultando chequera...</p>
+    </div>
+
+    <!-- Datos de la chequera -->
+    <div class="chequera-data" *ngIf="showChequeraData() && chequeraData()">
+      <div class="chequera-header">
+        <h2>Información de Chequera</h2>
+        <div class="user-info">
+          <div class="user-details">
+            <h3>{{ chequeraData()!.persona.nombre }} {{ chequeraData()!.persona.apellido }}</h3>
+            <p class="facultad">Unidad Académica: {{ chequeraData()!.facultad.nombre }}</p>
+            <p class="lectivo">Lectivo: {{ chequeraData()!.lectivo.nombre }}</p>
+          </div>
+          <div class="contact-info" *ngIf="chequeraData()!.chequeraSeries[0]?.mails">
+            <h4>Información de Contacto</h4>
+            <p *ngIf="chequeraData()!.chequeraSeries[0].mails.emailPersonal">
+              <strong>e-mail Personal:</strong> {{ chequeraData()!.chequeraSeries[0].mails.emailPersonal }}
+            </p>
+            <p *ngIf="chequeraData()!.chequeraSeries[0].mails.emailInstitucional">
+              <strong>e-mail Institucional:</strong> {{ chequeraData()!.chequeraSeries[0].mails.emailInstitucional }}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="chequera-series" *ngFor="let serie of chequeraData()!.chequeraSeries; trackBy: trackBySerieId">
+        <div class="serie-header">
+          <h3>Número de Chequera #{{ serie.chequeraSerieId }}</h3>
+          <div class="serie-details">
+            <p><strong>Tipo:</strong> {{ serie.tipoChequera.nombre }}</p>
+            <p><strong>Arancel:</strong> {{ serie.arancelTipo.descripcion }}</p>
+            <p><strong>Fecha:</strong> {{ formatDate(serie.fecha) }}</p>
+            <p><strong>Sede:</strong> {{ serie.geografica.nombre }}</p>
+          </div>
+        </div>
+
+        <div class="cuotas-container">
+          <h4>Cuotas</h4>
+          <div class="cuotas-grid">
+            <div class="cuota-card" *ngFor="let cuota of serie.chequeraCuotas; trackBy: trackByCuotaId">
+              <div class="cuota-header">
+                <h5>Cuota {{ cuota.cuotaId }} - {{ cuota.producto.nombre }}</h5>
+                <span class="status-badge" [class]="getStatusClass(cuota.pagado)">
+                  {{ getStatusText(cuota.pagado) }}
+                </span>
+              </div>
+              
+              <div class="cuota-details">
+                <div class="vencimiento-info">
+                  <p><strong>Vencimiento 1:</strong> {{ formatDate(cuota.vencimiento1) }} - {{ formatCurrency(cuota.importe1) }}</p>
+                  <p><strong>Vencimiento 2:</strong> {{ formatDate(cuota.vencimiento2) }} - {{ formatCurrency(cuota.importe2) }}</p>
+                  <p><strong>Vencimiento 3:</strong> {{ formatDate(cuota.vencimiento3) }} - {{ formatCurrency(cuota.importe3) }}</p>
+                </div>
+
+                <!-- Pagos realizados -->
+                <div class="pagos-info" *ngIf="cuota.chequeraPagos.length > 0">
+                  <h6>Pagos Realizados:</h6>
+                  <div class="pago-item" *ngFor="let pago of cuota.chequeraPagos">
+                    <p><strong>Fecha:</strong> {{ formatDate(pago.fecha) }}</p>
+                    <p><strong>Importe:</strong> {{ formatCurrency(pago.importe) }}</p>
+                    <p><strong>Método:</strong> {{ pago.tipoPago.nombre }}</p>
+                    <p *ngIf="pago.idMercadoPago"><strong>ID MercadoPago:</strong> {{ pago.idMercadoPago }}</p>
+                  </div>
+                </div>
+
+                <!-- Contexto de MercadoPago para cuotas pendientes -->
+                <div class="mercadopago-info" *ngIf="cuota.mercadoPagoContext && cuota.pagado === 0">
+                  <h6>Pago Pendiente - MercadoPago</h6>
+                  <p><strong>Importe:</strong> {{ formatCurrency(cuota.mercadoPagoContext.importe) }}</p>
+                  <p><strong>Vencimiento:</strong> {{ formatDate(cuota.mercadoPagoContext.fechaVencimiento) }}</p>
+                  <a 
+                    [href]="cuota.mercadoPagoContext.initPoint" 
+                    target="_blank" 
+                    class="mercadopago-button">
+                    Pagar con MercadoPago
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 
