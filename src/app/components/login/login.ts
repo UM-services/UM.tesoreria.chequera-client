@@ -84,7 +84,8 @@ export class Login implements OnInit, AfterViewInit, OnDestroy {
           theme: 'outline',
           text: 'sign_in_with',
           shape: 'rectangular',
-          logo_alignment: 'left'
+          logo_alignment: 'left',
+          ux_mode: 'popup'
         }
       );
       console.log('Google Sign-In inicializado correctamente');

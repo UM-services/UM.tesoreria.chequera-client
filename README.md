@@ -9,7 +9,7 @@ Este es el cliente Angular para el sistema de chequera de la Universidad de Mend
 ### Autenticación
 - Login con Google OAuth 2.0
 - Verificación de autorización en el backend
-- Gestión de sesiones persistentes
+- Gestión de sesiones persistentes con localStorage
 
 ### Selección de Facultad
 - Lista de facultades disponibles para el usuario
@@ -35,10 +35,10 @@ Para ver un historial detallado de los cambios, consulta el archivo [CHANGELOG.m
 
 ## 🛠️ Tecnologías Utilizadas
 
-- **Angular 20** - Framework principal
-- **TypeScript** - Lenguaje de programación
+- **Angular 20.1.0-next.0** - Framework principal
+- **TypeScript 5.8.2** - Lenguaje de programación
 - **SCSS** - Estilos avanzados
-- **RxJS** - Programación reactiva
+- **RxJS 7.8.0** - Programación reactiva
 - **Google Identity Services** - Autenticación OAuth
 
 ## 📋 Requisitos Previos
@@ -172,7 +172,7 @@ src/
 │   └── config/
 │       └── app.config.ts    # Configuración de la aplicación
 ├── environments/
-│   ├── environment.development.ts
+│   ├── environment.development.example.ts
 │   └── environment.prod.ts
 └── styles.scss              # Estilos globales
 ```
