@@ -1,41 +1,40 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
+Todos los cambios notables de este proyecto serán documentados en este archivo.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+El formato está basado en [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.0.0] - 2025-06-22
+## [0.0.0]
 
-### Added
-- **UI Enhancements and Documentation Updates** (65b9fa5 - 2025-06-22)
-  - Replaced hardcoded SVG logo with PNG image in header and login page for brand consistency
-  - Added "Try Again" button to checkbook error screen for better user experience
-  - Updated `angular.json` to include `src/assets` directory for image assets
-  - Created CHANGELOG.md to track project changes
-  - Updated README.md with correct Angular version and improved documentation
+### Agregado (Added)
+- **Soporte para variables de entorno y generación automática de archivos `environment` en Docker build** (`23c2a4e` - hace 21 horas)
+  - Se integró un script para generar `environment.ts` dinámicamente a partir de variables de entorno, facilitando los despliegues.
+- **Configuración de Docker y mejoras en el proceso de build** (`dd069f0` - hace 35 horas)
+  - Se añadió `Dockerfile` para producción y `Dockerfile.local` para desarrollo.
+  - Se incluyó `entrypoint.sh` para gestionar el inicio del contenedor.
+  - Se configuró Nginx como servidor web para la aplicación en producción.
+- **Mejoras en la UI y la documentación** (`65b9fa5` - hace 2 días)
+  - Se reemplazó el logo SVG por una imagen PNG para consistencia de marca.
+  - Se añadió un botón "Intentar de nuevo" en la pantalla de error para mejorar la experiencia de usuario.
+  - Se creó y actualizó `CHANGELOG.md` y `README.md` con información detallada del proyecto.
 
-### Initial Release
-- **First Commit** (d5edf54 - 2025-06-18)
-  - Initial project setup with Angular 20.1.0-next.0
-  - Google OAuth 2.0 authentication implementation
-  - Faculty selector component
-  - Dashboard component with checkbook query functionality
-  - Backend service integration
-  - Authentication guard implementation
-  - User interface models and interfaces
-  - Environment configuration setup
-  - Basic project structure and routing
+### Cambiado (Changed)
+- **Pruebas de despliegue** (`b4edd43` - hace 21 horas)
+  - Se realizaron ajustes para el primer despliegue en el entorno de producción.
+
+### Versión Inicial
+- **Primer Commit** (`d5edf54` - hace 5 días)
+  - Configuración inicial del proyecto con Angular.
+  - Implementación de autenticación con Google OAuth 2.0.
+  - Creación de la estructura de componentes base (login, dashboard, selector de facultad).
 
 ## Información de Fuentes
 
-- **Versiones**: Extraídas de `package.json`
-- **Fechas de commits**: Extraídas de `git log`
-- **Cambios documentados**: Basados en mensajes de commit y archivos modificados
-- **Funcionalidades**: Verificadas en el código fuente actual
+- **Versión**: Extraída de `package.json` (`v0.0.0`).
+- **Historial de Cambios**: Basado en el `git log`. Los resúmenes de cambios se derivan de los mensajes de commit.
 
 ## Notas
 
-- No hay tags de versiones en el repositorio git
-- La versión actual es 0.0.0 según package.json
-- El proyecto está en desarrollo activo con commits recientes 
+- No se han encontrado etiquetas (tags) de versión en el repositorio.
+- Las fechas de los cambios son relativas para reflejar fielmente la información de `git log`.

@@ -391,10 +391,18 @@
 
       .cuotas-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
         gap: 20px;
 
-        @media (max-width: 768px) {
+        @media (min-width: 1201px) {
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        @media (min-width: 768px) and (max-width: 1200px) {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        @media (max-width: 767px) {
           grid-template-columns: 1fr;
         }
       }
