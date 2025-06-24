@@ -5,36 +5,32 @@ Todos los cambios notables de este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.0.0]
+## [0.0.1] - 2025-06-24
 
 ### Agregado (Added)
-- **Soporte para variables de entorno y generación automática de archivos `environment` en Docker build** (`23c2a4e` - hace 21 horas)
-  - Se integró un script para generar `environment.ts` dinámicamente a partir de variables de entorno, facilitando los despliegues.
-- **Configuración de Docker y mejoras en el proceso de build** (`dd069f0` - hace 35 horas)
-  - Se añadió `Dockerfile` para producción y `Dockerfile.local` para desarrollo.
-  - Se incluyó `entrypoint.sh` para gestionar el inicio del contenedor.
-  - Se configuró Nginx como servidor web para la aplicación en producción.
-- **Mejoras en la UI y la documentación** (`65b9fa5` - hace 2 días)
-  - Se reemplazó el logo SVG por una imagen PNG para consistencia de marca.
-  - Se añadió un botón "Intentar de nuevo" en la pantalla de error para mejorar la experiencia de usuario.
-  - Se creó y actualizó `CHANGELOG.md` y `README.md` con información detallada del proyecto.
+- **Actualización de Documentación y Mejoras de UI** (`6ed1017`)
+  - Se actualizó `README.md` y `CHANGELOG.md` para reflejar los últimos cambios.
+  - Se mejoró la interfaz de usuario con ajustes de estilo y un nuevo logo.
+- **Soporte para Variables de Entorno en Docker** (`23c2a4e`)
+  - Script para generar `environment.ts` a partir de variables de entorno durante el `docker build`.
+- **Configuración de Docker** (`dd069f0`)
+  - `Dockerfile` para producción con Nginx.
+  - `Dockerfile.local` para desarrollo con hot-reload.
+  - `entrypoint.sh` para la gestión del contenedor.
+- **Mejoras en UI y Manejo de Errores** (`65b9fa5`)
+  - Reemplazo de logo SVG por PNG.
+  - Botón "Intentar de nuevo" en la pantalla de error.
 
 ### Cambiado (Changed)
-- **Pruebas de despliegue** (`b4edd43` - hace 21 horas)
-  - Se realizaron ajustes para el primer despliegue en el entorno de producción.
+- **Pruebas de Despliegue** (`b4edd43`)
+  - Ajustes para el primer despliegue en producción.
 
-### Versión Inicial
-- **Primer Commit** (`d5edf54` - hace 5 días)
+## [0.0.0] - Versión Inicial
+
+- **Primer Commit** (`d5edf54`)
   - Configuración inicial del proyecto con Angular.
   - Implementación de autenticación con Google OAuth 2.0.
-  - Creación de la estructura de componentes base (login, dashboard, selector de facultad).
+  - Estructura base de componentes (login, dashboard, facultad-selector).
 
-## Información de Fuentes
-
-- **Versión**: Extraída de `package.json` (`v0.0.0`).
-- **Historial de Cambios**: Basado en el `git log`. Los resúmenes de cambios se derivan de los mensajes de commit.
-
-## Notas
-
-- No se han encontrado etiquetas (tags) de versión en el repositorio.
-- Las fechas de los cambios son relativas para reflejar fielmente la información de `git log`.
+---
+*Nota: La versión y fecha son asignadas para esta actualización. El historial de commits se ha obtenido de `git log`.*
