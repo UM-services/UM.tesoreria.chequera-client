@@ -40,11 +40,14 @@ Para ver un historial detallado de los cambios, consulta el archivo [CHANGELOG.m
 - **SCSS** - Estilos avanzados
 - **RxJS 7.8.0** - Programación reactiva
 - **Google Identity Services** - Autenticación OAuth
+- **Docker** - Contenerización
+- **Nginx** - Servidor web para producción
 
 ## 📋 Requisitos Previos
 
 - Node.js (versión 18 o superior)
-- npm o yarn
+- npm
+- Docker (opcional, para ejecución en contenedores)
 - Backend del sistema corriendo en `http://127.0.0.1:8121`
 
 ## 🔧 Instalación y Configuración
@@ -62,21 +65,21 @@ npm install
 
 ### 3. Configurar variables de entorno
 
-Copia el archivo de ejemplo y configura tus credenciales:
+La configuración de la aplicación se gestiona a través de variables de entorno, que son utilizadas para generar los archivos `environment.ts` correspondientes.
 
+Para desarrollo local, puedes crear un archivo `.env` en la raíz del proyecto con el siguiente contenido:
+```
+GOOGLE_CLIENT_ID=TU_GOOGLE_CLIENT_ID_AQUI
+BACKEND_URL=http://127.0.0.1:8121
+```
+
+Luego, ejecuta el script para generar el archivo de configuración de desarrollo:
 ```bash
-cp src/environments/environment.development.example.ts src/environments/environment.development.ts
+npm run generate-env
 ```
+Esto creará `src/environments/environment.development.ts` con los valores del archivo `.env`.
 
-Edita `src/environments/environment.development.ts`:
-
-```typescript
-export const environment = {
-  production: false,
-  googleClientId: 'TU_GOOGLE_CLIENT_ID_AQUI',
-  backendUrl: 'http://127.0.0.1:8121'
-};
-```
+Para producción, las variables de entorno se deben configurar directamente en el entorno de despliegue (por ejemplo, en el `Dockerfile` o en el servicio de hosting).
 
 ### 4. Configurar Google OAuth
 
@@ -87,21 +90,42 @@ export const environment = {
 5. Configura los orígenes autorizados:
    - `http://localhost:4200` (desarrollo)
    - `https://tu-dominio.com` (producción)
-6. Copia el Client ID y pégalo en el archivo de entorno
+6. Copia el Client ID y úsalo en tu archivo `.env` o en las variables de entorno de producción.
 
-## 🚀 Ejecutar la Aplicación
+## 🚀 Ejecutar la Aplicación (Localmente)
 
-### Desarrollo
 ```bash
 npm start
 ```
+La aplicación estará disponible en `http://localhost:4200`.
 
-La aplicación estará disponible en `http://localhost:4200`
+## 🐳 Ejecutar con Docker
+
+El proyecto incluye archivos `Dockerfile` para facilitar la ejecución en contenedores.
+
+### Desarrollo
+Para levantar un contenedor en modo de desarrollo con hot-reload:
+```bash
+# Construir la imagen de desarrollo
+docker build -t chequera-client-dev -f Dockerfile.local .
+
+# Ejecutar el contenedor
+docker run -p 4200:4200 -v $(pwd)/src:/app/src chequera-client-dev
+```
 
 ### Producción
+Para construir la imagen de producción y ejecutarla:
 ```bash
-npm run build
+# Construir la imagen de producción
+docker build -t chequera-client .
+
+# Ejecutar el contenedor pasando las variables de entorno
+docker run -p 80:80 \
+  -e GOOGLE_CLIENT_ID="TU_GOOGLE_CLIENT_ID_DE_PRODUCCION" \
+  -e BACKEND_URL="https://tu-backend.com" \
+  chequera-client
 ```
+La aplicación estará disponible en el puerto 80 del host.
 
 ## 📱 Uso de la Aplicación
 
@@ -142,13 +166,13 @@ npm run build
 ## 🐛 Solución de Problemas
 
 ### Error de CORS
-Asegúrate de que el backend esté configurado para aceptar peticiones desde `http://localhost:4200`
+Asegúrate de que el backend esté configurado para aceptar peticiones desde el origen de tu frontend.
 
 ### Error de Google OAuth
-Verifica que el Client ID esté correctamente configurado y que los orígenes autorizados incluyan tu dominio
+Verifica que el Client ID esté correctamente configurado y que los orígenes autorizados en Google Cloud Console coincidan con el dominio desde el que accedes.
 
 ### Error de Conexión al Backend
-Confirma que el backend esté corriendo en `http://127.0.0.1:8121` y que la URL esté correctamente configurada
+Confirma que el backend esté corriendo y que la `BACKEND_URL` sea correcta.
 
 ## 📝 Estructura del Proyecto
 
@@ -172,8 +196,8 @@ src/
 │   └── config/
 │       └── app.config.ts    # Configuración de la aplicación
 ├── environments/
-│   ├── environment.development.example.ts
-│   └── environment.prod.ts
+│   ├── environment.ts
+│   └── environment.development.ts
 └── styles.scss              # Estilos globales
 ```
 
