@@ -295,39 +295,56 @@
       text-align: center;
     }
 
-    .user-info {
+    .user-info-container {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 30px;
-      background: #f8f9fa;
-      padding: 25px;
-      border-radius: 15px;
-      border-left: 4px solid #667eea;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
 
-      @media (max-width: 768px) {
-        grid-template-columns: 1fr;
-        gap: 20px;
-      }
+      .info-card {
+        background: linear-gradient(135deg, #f5f7fa, #eef2f7);
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        border: 1px solid #e1e5e9;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
 
-      .user-details {
-        h3 {
-          color: #333;
-          font-size: 20px;
-          font-weight: 600;
-          margin-bottom: 10px;
+        &:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
         }
 
-        p {
-          color: #666;
-          margin-bottom: 8px;
-          font-size: 14px;
-
-          &.documento {
-            font-weight: 600;
+        h3, h4 {
+          display: flex;
+          align-items: center;
+          color: #2c3e50;
+          font-size: 1.25rem;
+          font-weight: 600;
+          margin-bottom: 15px;
+          
+          .icon {
+            font-size: 1.5rem;
+            margin-right: 12px;
             color: #667eea;
           }
         }
+
+        h4 {
+          font-size: 1.1rem;
+        }
+
+        p {
+          color: #555;
+          font-size: 0.95rem;
+          line-height: 1.6;
+          margin-bottom: 8px;
+
+          strong {
+            color: #333;
+            font-weight: 600;
+          }
+        }
       }
+    }
 
       .contact-info {
         h4 {
@@ -391,14 +408,10 @@
 
       .cuotas-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 20px;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 25px;
 
-        @media (min-width: 1201px) {
-          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        }
-
-        @media (min-width: 768px) and (max-width: 1200px) {
+        @media (max-width: 1200px) {
           grid-template-columns: repeat(2, 1fr);
         }
 
@@ -551,7 +564,6 @@
       }
     }
   }
-}
 
 // Animaciones
 @keyframes spin {

@@ -49,6 +49,7 @@
             id="documento-input"
             [value]="documento()"
             (input)="onDocumentoChange($event)"
+            (keydown.enter)="consultarChequera()"
             class="documento-input"
             placeholder="Ingresa tu número de documento"
             [disabled]="isLoadingChequera()">
@@ -76,19 +77,25 @@
     <div class="chequera-data" *ngIf="showChequeraData() && chequeraData()">
       <div class="chequera-header">
         <h2>Información de Chequera</h2>
-        <div class="user-info">
-          <div class="user-details">
-            <h3>{{ chequeraData()!.persona.nombre }} {{ chequeraData()!.persona.apellido }}</h3>
-            <p class="facultad">Unidad Académica: {{ chequeraData()!.facultad.nombre }}</p>
-            <p class="lectivo">Lectivo: {{ chequeraData()!.lectivo.nombre }}</p>
+        <div class="user-info-container">
+          <div class="info-card user-details-card">
+            <h3>
+              <span class="icon">👤</span>
+              {{ chequeraData()!.persona.nombre }} {{ chequeraData()!.persona.apellido }}
+            </h3>
+            <p><strong>Unidad Académica:</strong> {{ chequeraData()!.facultad.nombre }}</p>
+            <p><strong>Lectivo:</strong> {{ chequeraData()!.lectivo.nombre }}</p>
           </div>
-          <div class="contact-info" *ngIf="chequeraData()!.chequeraSeries[0]?.mails">
-            <h4>Información de Contacto</h4>
+          <div class="info-card contact-info-card" *ngIf="chequeraData()!.chequeraSeries[0]?.mails">
+            <h4>
+              <span class="icon">📧</span>
+              Información de Contacto
+            </h4>
             <p *ngIf="chequeraData()!.chequeraSeries[0].mails.emailPersonal">
-              <strong>e-mail Personal:</strong> {{ chequeraData()!.chequeraSeries[0].mails.emailPersonal }}
+              <strong>Personal:</strong> {{ chequeraData()!.chequeraSeries[0].mails.emailPersonal }}
             </p>
             <p *ngIf="chequeraData()!.chequeraSeries[0].mails.emailInstitucional">
-              <strong>e-mail Institucional:</strong> {{ chequeraData()!.chequeraSeries[0].mails.emailInstitucional }}
+              <strong>Institucional:</strong> {{ chequeraData()!.chequeraSeries[0].mails.emailInstitucional }}
             </p>
           </div>
         </div>

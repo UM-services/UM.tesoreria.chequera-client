@@ -1,6 +1,6 @@
 # Sistema de Chequera - Cliente Angular
 
-![Version](https://img.shields.io/badge/version-0.0.0-blue)
+![Version](https://img.shields.io/badge/version-0.0.1-blue)
 
 Este es el cliente Angular para el sistema de chequera de la Universidad de Mendoza. La aplicación permite a los usuarios autenticarse con Google y consultar información detallada de sus chequeras académicas.
 
