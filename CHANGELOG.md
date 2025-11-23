@@ -5,6 +5,25 @@ Todos los cambios notables de este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.0] - 2025-11-23
+
+### Agregado (Added)
+- **Nuevo Componente Sidebar**
+  - Navegación lateral responsiva con enlaces a Inicio, Mi Chequera, Mi Perfil y Configuración.
+  - Integración con `RouterLink` y `RouterLinkActive` para gestión de estado de navegación.
+- **Migración a Tailwind CSS**
+  - Configuración inicial de Tailwind CSS (`tailwind.config.js`).
+  - Integración de directivas de Tailwind en `styles.scss`.
+  - Reemplazo de estilos SCSS personalizados por clases utilitarias de Tailwind en componentes principales.
+
+### Cambiado (Changed)
+- **Actualización de Dependencias**
+  - Angular actualizado a `^21.0.0`.
+  - TypeScript actualizado a `~5.9.3`.
+- **Refactorización de UI**
+  - `app.html` actualizado para usar un layout con Sidebar y Tailwind.
+  - `login.html` refactorizado para usar clases de Tailwind.
+
 ## [0.0.1] - 2025-06-24
 
 ### Agregado (Added)

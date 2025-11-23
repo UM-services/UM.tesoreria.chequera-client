@@ -1,6 +1,6 @@
 # Sistema de Chequera - Cliente Angular
 
-![Version](https://img.shields.io/badge/version-0.0.1-blue)
+![Version](https://img.shields.io/badge/version-0.1.0-blue)
 
 Este es el cliente Angular para el sistema de chequera de la Universidad de Mendoza. La aplicación permite a los usuarios autenticarse con Google y consultar información detallada de sus chequeras académicas.
 
@@ -35,9 +35,10 @@ Para ver un historial detallado de los cambios, consulta el archivo [CHANGELOG.m
 
 ## 🛠️ Tecnologías Utilizadas
 
-- **Angular 20.1.0-next.0** - Framework principal
-- **TypeScript 5.8.2** - Lenguaje de programación
-- **SCSS** - Estilos avanzados
+- **Angular 21.0.0** - Framework principal
+- **TypeScript 5.9.3** - Lenguaje de programación
+- **Tailwind CSS 3.4** - Framework de estilos utilitarios
+- **SCSS** - Preprocesador CSS (para configuraciones globales)
 - **RxJS 7.8.0** - Programación reactiva
 - **Google Identity Services** - Autenticación OAuth
 - **Docker** - Contenerización
@@ -174,6 +175,31 @@ Verifica que el Client ID esté correctamente configurado y que los orígenes au
 ### Error de Conexión al Backend
 Confirma que el backend esté corriendo y que la `BACKEND_URL` sea correcta.
 
+## 🏗️ Arquitectura de Componentes
+
+```mermaid
+graph TD
+    App[App Component] --> Header
+    App --> Sidebar
+    App --> RouterOutlet[Router Outlet]
+    
+    subgraph "Vistas Principales"
+        RouterOutlet --> Login
+        RouterOutlet --> Dashboard
+        RouterOutlet --> FacultadSelector[Selector Facultad]
+    end
+    
+    subgraph "Layout"
+        Header
+        Sidebar
+        Footer
+    end
+
+    Login --> AuthService
+    Dashboard --> FacultadService
+    FacultadSelector --> FacultadService
+```
+
 ## 📝 Estructura del Proyecto
 
 ```
@@ -183,6 +209,7 @@ src/
 │   │   ├── login/           # Componente de autenticación
 │   │   ├── facultad-selector/ # Selector de facultad y consulta
 │   │   ├── dashboard/       # Dashboard principal
+│   │   ├── sidebar/         # Barra lateral de navegación
 │   │   ├── header/          # Encabezado de la aplicación
 │   │   └── footer/          # Pie de página
 │   ├── services/

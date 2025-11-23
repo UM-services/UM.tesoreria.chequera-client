@@ -1,11 +1,18 @@
 <!-- Header siempre visible -->
 <app-header></app-header>
 
-<div class="layout-flex">
-  <main class="main-content">
+<div class="flex min-h-[calc(100vh-64px)] bg-gray-50">
+  
+  <!-- Sidebar visible solo si el usuario está autenticado -->
+  @if (authService.user()) {
+    <app-sidebar></app-sidebar>
+  }
+
+  <main class="flex-1 w-full min-w-0">
     <!-- Router outlet para manejar la navegación -->
     <router-outlet></router-outlet>
+    
+    <!-- Footer dentro del main para que no se superponga con el sidebar -->
+    <app-footer></app-footer>
   </main>
 </div>
-
-<app-footer></app-footer>
